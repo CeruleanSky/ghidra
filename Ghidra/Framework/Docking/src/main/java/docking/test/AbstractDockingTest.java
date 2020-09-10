@@ -384,6 +384,9 @@ public abstract class AbstractDockingTest extends AbstractGenericTest {
 	}
 
 	public void close(DialogComponentProvider dialog) {
+		if (dialog == null) {
+			return;
+		}
 		runSwing(() -> dialog.close());
 	}
 
@@ -1484,12 +1487,12 @@ public abstract class AbstractDockingTest extends AbstractGenericTest {
 
 	/** 
 	 * Simulates the user pressing the 'Enter' key on the given text field 
-	 * @param tf the text field
+	 * @param c the component
 	 */
-	public static void triggerEnter(JTextField tf) {
+	public static void triggerEnter(Component c) {
 		// text components will not perform built-in actions if they are not focused
-		triggerFocusGained(tf);
-		triggerActionKey(tf, 0, KeyEvent.VK_ENTER);
+		triggerFocusGained(c);
+		triggerActionKey(c, 0, KeyEvent.VK_ENTER);
 		waitForSwing();
 	}
 
