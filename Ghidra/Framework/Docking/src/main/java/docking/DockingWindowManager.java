@@ -41,7 +41,6 @@ import ghidra.util.datastruct.*;
 import ghidra.util.exception.AssertException;
 import ghidra.util.task.SwingUpdateManager;
 import util.CollectionUtils;
-import utilities.util.reflection.ReflectionUtilities;
 
 /**
  * Manages the "Docking" arrangement of a set of components and actions. The components can be "docked"
@@ -2255,33 +2254,12 @@ public class DockingWindowManager implements PropertyChangeListener, Placeholder
 
 				component.removeHierarchyListener(this);
 				DockingWindowManager dwm = getInstance(component);
+				ComponentProvider provider = null;
 				if (dwm != null) {
-					ComponentProvider provider = dwm.getComponentProvider(component);
-					listener.componentLoaded(dwm, provider);
-					return;
+					provider = dwm.getComponentProvider(component);
 				}
 
-				// Unable to find the manager.  This can happen during testing; only report if
-				// it is unexpected
-				maybeReportMissingManager();
-			}
-
-			private void maybeReportMissingManager() {
-				if (instances.isEmpty()) {
-					return; // not manager means no tool; assume testing
-				}
-
-				if (instances.size() == 1) {
-					DockingWindowManager dwm = instances.get(0);
-					if (!dwm.isVisible()) {
-						return; // not showing; assume testing with tool not shown
-					}
-				}
-
-				Msg.debug(DockingWindowManager.class,
-					"Unable to find Docking Window Manager for " +
-						component.getClass().getSimpleName(),
-					ReflectionUtilities.createJavaFilteredThrowable());
+				listener.componentLoaded(dwm, provider);
 			}
 		});
 
