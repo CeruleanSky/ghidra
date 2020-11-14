@@ -31,6 +31,12 @@ jobs:
 
     - name: Build Ghidra
       run: |
+        #patch in https://github.com/NationalSecurityAgency/ghidra/pull/2409
+        $buildgradle =  "Ghidra\Features\GhidraServer\build.gradle"
+        Get-Content $buildgradle | Where-Object {$_ -notlike '*def JAR_PATH = rootProject.relativePath(jarFile.absolutePath)'} | Set-Content .\temp_out.txt
+        ((Get-Content .\temp_out.txt) -join "`n") + "`n" | Set-Content -NoNewline $buildgradle
+        del .\temp_out.txt
+        #build as normal
         gradle --init-script gradle/support/fetchDependencies.gradle init
         $env:Path += ";$env:programdata\chocolatey\lib\winflexbison\tools"
         gradle buildGhidra
