@@ -36,8 +36,14 @@ public interface ManagedBreakpointRecorder {
 
 	TraceBreakpoint getTraceBreakpoint(TargetBreakpointLocation bpt);
 
-	void breakpointLengthChanged(int length, Address traceAddr, String path);
+	/**
+	 * The length of a breakpoint location has changed
+	 * 
+	 * @param length the new length
+	 * @param traceAddr the address of the location in the trace
+	 * @param path the dot-separated path of the breakpoint location in the model
+	 */
+	void breakpointLocationChanged(int length, Address traceAddr, String path);
 
 	void breakpointToggled(TargetBreakpointSpec spec, boolean enabled);
-
 }
