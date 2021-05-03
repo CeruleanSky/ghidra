@@ -38,6 +38,7 @@ jobs:
         #del .\temp_out.txt
         #build as normal
         gradle wrapper --gradle-version 6.8.3
+        gradlew wrapper --gradle-version 6.8.3
         gradlew.bat --init-script gradle/support/fetchDependencies.gradle init
         $env:Path += ";$env:programdata\chocolatey\lib\winflexbison\tools"
         gradlew.bat buildGhidra
