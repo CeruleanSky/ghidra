@@ -15,6 +15,7 @@ jobs:
     - name: Install dependencies
       run: |
         java -version
+        choco install gradle --version 6.8.3 -y --allow-downgrade
         choco install winflexbison
         cd $env:programdata/chocolatey/lib/winflexbison/tools
         dir .
@@ -37,12 +38,9 @@ jobs:
         #((Get-Content .\temp_out.txt) -join "`n") + "`n" | Set-Content -NoNewline $buildgradle
         #del .\temp_out.txt
         #build as normal
-        gradle wrapper --gradle-version 6.8.3
-        gradle --no-daemon
-        gradle --stop
-        gradlew.bat --init-script gradle/support/fetchDependencies.gradle init
+        gradle --init-script gradle/support/fetchDependencies.gradle init
         $env:Path += ";$env:programdata\chocolatey\lib\winflexbison\tools"
-        gradlew.bat buildGhidra
+        gradle buildGhidra
         
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
