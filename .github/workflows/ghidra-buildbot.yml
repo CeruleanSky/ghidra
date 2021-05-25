@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: |
         java -version
-        choco install gradle --version 6.8.3 -y --allow-downgrade
+        choco install gradle --version 7.0.1 -y --allow-downgrade
         choco install winflexbison
         cd $env:programdata/chocolatey/lib/winflexbison/tools
         dir .
